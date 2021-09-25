@@ -1,6 +1,6 @@
 {
   "name": "@ste7en/worker-loader",
-  "version": "3.0.8",
+  "version": "3.0.9",
   "description": "worker loader module for webpack",
   "license": "MIT",
   "repository": "git@github.com:hukaibaihu/worker-loader.git",
