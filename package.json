@@ -1,12 +1,12 @@
 {
-  "name": "worker-loader",
+  "name": "@ste7en/worker-loader",
   "version": "3.0.8",
   "description": "worker loader module for webpack",
   "license": "MIT",
-  "repository": "webpack-contrib/worker-loader",
+  "repository": "git@github.com:hukaibaihu/worker-loader.git",
   "author": "Tobias Koppers @sokra",
-  "homepage": "https://github.com/webpack-contrib/worker-loader",
-  "bugs": "https://github.com/webpack-contrib/worker-loader/issues",
+  "homepage": "https://github.com/hukaibaihu/worker-loader",
+  "bugs": "https://github.com/hukaibaihu/worker-loader/issues",
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/webpack"

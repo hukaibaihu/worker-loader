@@ -49,6 +49,11 @@ function workerGenerator(loaderContext, workerFilename, workerSource, options) {
   const esModule =
     typeof options.esModule !== "undefined" ? options.esModule : true;
   const fnName = `${workerConstructor}_fn`;
+  const publicPath = options.publicPath ? options.publicPath : "";
+  // ? options.publicPath
+  // : typeof __webpack_public_path__ !== 'undefined'
+  //   ? __webpack_public_path__
+  //   : '';
 
   if (options.inline) {
     const InlineWorkerPath = stringifyRequest(
@@ -59,7 +64,7 @@ function workerGenerator(loaderContext, workerFilename, workerSource, options) {
     let fallbackWorkerPath;
 
     if (options.inline === "fallback") {
-      fallbackWorkerPath = `__webpack_public_path__ + ${JSON.stringify(
+      fallbackWorkerPath = `${JSON.stringify(publicPath)} + ${JSON.stringify(
         workerFilename
       )}`;
     }
@@ -82,9 +87,11 @@ ${
 
   return `${
     esModule ? "export default" : "module.exports ="
-  } function ${fnName}() {\n  return new ${workerConstructor}(__webpack_public_path__ + ${JSON.stringify(
-    workerFilename
-  )}${workerOptions ? `, ${JSON.stringify(workerOptions)}` : ""});\n}\n`;
+  } function ${fnName}() {\n  return new ${workerConstructor}(${JSON.stringify(
+    publicPath
+  )} + ${JSON.stringify(workerFilename)}${
+    workerOptions ? `, ${JSON.stringify(workerOptions)}` : ""
+  });\n}\n`;
 }
 
 // Matches only the last occurrence of sourceMappingURL
