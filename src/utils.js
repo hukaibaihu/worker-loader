@@ -50,10 +50,6 @@ function workerGenerator(loaderContext, workerFilename, workerSource, options) {
     typeof options.esModule !== "undefined" ? options.esModule : true;
   const fnName = `${workerConstructor}_fn`;
   const publicPath = options.publicPath ? options.publicPath : "";
-  // ? options.publicPath
-  // : typeof __webpack_public_path__ !== 'undefined'
-  //   ? __webpack_public_path__
-  //   : '';
 
   if (options.inline) {
     const InlineWorkerPath = stringifyRequest(
@@ -64,9 +60,9 @@ function workerGenerator(loaderContext, workerFilename, workerSource, options) {
     let fallbackWorkerPath;
 
     if (options.inline === "fallback") {
-      fallbackWorkerPath = `${JSON.stringify(publicPath)} + ${JSON.stringify(
-        workerFilename
-      )}`;
+      fallbackWorkerPath = `(typeof window.__worker_public_path__ === "string" ? window.__worker_public_path__ : ${JSON.stringify(
+        publicPath
+      )}) + ${JSON.stringify(workerFilename)}`;
     }
 
     return `
@@ -87,9 +83,9 @@ ${
 
   return `${
     esModule ? "export default" : "module.exports ="
-  } function ${fnName}() {\n  return new ${workerConstructor}(${JSON.stringify(
+  } function ${fnName}() {\n  return new ${workerConstructor}((typeof window.__worker_public_path__ === "string" ? window.__worker_public_path__ : ${JSON.stringify(
     publicPath
-  )} + ${JSON.stringify(workerFilename)}${
+  )}) + ${JSON.stringify(workerFilename)}${
     workerOptions ? `, ${JSON.stringify(workerOptions)}` : ""
   });\n}\n`;
 }
